@@ -61,13 +61,19 @@ EOF
     sed -i "s/expose_php = .*$/expose_php = Off/" /etc/opt/rh/rh-php71/php.ini
 }
 
+downloadSchlix() {
+    echo "==> Downloading Schlix"
+    
+    wget -O /tmp/schlix-cms-latest.zip 'https://www.schlix.com/cmsservices/action/get-cms-latest-zip-download-file'
+}
+
 installSchlix() {
     echo "==> Installing Schlix"
 
-    if [ -f $UPLOADS_DIR/schlix-cms*.zip ]; then
-        unzip -q $UPLOADS_DIR/schlix-cms*.zip -d /tmp
+    if [ -f /tmp/schlix-cms-latest.zip ]; then
+        unzip -q /tmp/schlix-cms-latest.zip -d /tmp
     else
-        echo "You must provide schlix-cms zip file. Download from https://www.schlix.com"
+        echo "Failed to download Schlix CMS."
     fi
     cp -R /tmp/schlix/. $installdir
 }
@@ -78,6 +84,7 @@ main() {
 
     installDependencies
     configureApache
+    downloadSchlix
     installSchlix
 }
 
