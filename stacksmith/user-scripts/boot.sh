@@ -16,24 +16,10 @@ waitForMySQL() {
     done
 }
 
-printDBSetup() {
-    echo "---------------------------------------------------"
-    echo "SCHLIX CMS can now be set up with the following database information"
-    echo "- Host: $DATABASE_HOST"
-    echo "- Database: $DATABASE_NAME"
-    echo "- User: $DATABASE_USER"
-    echo "---------------------------------------------------"
-}
-
 main() {
     readonly installdir='/var/www/html'
 
     waitForMySQL
-
-    if [ ! -f $installdir/multisite-config.inc.php ]; then
-        printDBSetup
-        # TODO: automated installation
-    fi
 
     chown -R apache:apache $installdir/
 }

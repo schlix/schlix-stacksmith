@@ -70,10 +70,16 @@ downloadSchlix() {
 installSchlix() {
     echo "==> Installing Schlix"
 
-    if [ -f /tmp/schlix-cms-latest.zip ]; then
-        unzip -q /tmp/schlix-cms-latest.zip -d /tmp
+    if [ -f $UPLOADS_DIR/schlix-cms*.zip ]; then
+        echo "==> Using uploaded Schlix CMS zip file"
+        unzip -q $UPLOADS_DIR/schlix-cms*.zip -d /tmp
     else
-        echo "Failed to download Schlix CMS."
+        downloadSchlix
+        if [ -f /tmp/schlix-cms-latest.zip ]; then
+            unzip -q /tmp/schlix-cms-latest.zip -d /tmp
+        else
+            echo "Failed to download Schlix CMS."
+        fi
     fi
     cp -R /tmp/schlix/. $installdir
 }
@@ -84,7 +90,6 @@ main() {
 
     installDependencies
     configureApache
-    downloadSchlix
     installSchlix
 }
 
