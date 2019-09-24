@@ -84,7 +84,6 @@ installSchlix() {
     cp -R /tmp/schlix/. $installdir
 }
 
-
 main() {
     readonly installdir='/var/www/html'
 

@@ -4,17 +4,8 @@
 set -euo pipefail
 
 setupSchlixENV() {
-    echo "==> Setting up Schlix env vars"
-    export SCHLIX_INSTALL_USE_ENV="1"
-    export SCHLIX_INSTALL_DB_HOST=$DATABASE_HOST
-    export SCHLIX_INSTALL_DB_DATABASE=$DATABASE_NAME
-    export SCHLIX_INSTALL_DB_USERNAME=$DATABASE_USER
-    export SCHLIX_INSTALL_DB_PORT=$DATABASE_PORT
-
-    CA_FILE='/etc/pki/ca-trust/extracted/pem/tls-ca-bundle.pem'
-    if [ -f "$CA_FILE" ]; then
-        export SCHLIX_INSTALL_DB_SSL_CA=$CA_FILE
-    fi
+    echo "==> Load Schlix env vars"
+    source $installdir/.schlix-env
 }
 
 main() {
@@ -22,6 +13,8 @@ main() {
 
     if [ ! -f $installdir/multisite-config.inc.php ]; then
         setupSchlixENV
+    else
+        rm -f $installdir/.schlix-env
     fi
 
     echo "==> Starting Apache..."
